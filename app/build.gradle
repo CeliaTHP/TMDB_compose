@@ -11,12 +11,17 @@ android {
     namespace 'com.example.tmdb_compose'
     compileSdk 32
 
+
     defaultConfig {
         applicationId "com.example.tmdb_compose"
         minSdk 30
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "API_KEY", '"e4a9d54204f8ee1d8121e867e9a8a5a5"'
+        // compi
+        buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -70,8 +75,19 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
-    //fix duplicated class
+    //To fix duplicated class
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //Moshi (Gson converter for retrofit)
+    //https://proandroiddev.com/moshi-with-retrofit-in-kotlin-%EF%B8%8F-a69c2621708b
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+
+    //Logging Interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
 
 }
 // Allow references to generated code
