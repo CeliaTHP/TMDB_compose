@@ -13,7 +13,6 @@ import com.example.tmdb_compose.ui.theme.TMDB_composeTheme
 import com.example.tmdb_compose.view_models.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 
 @AndroidEntryPoint
@@ -40,6 +39,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
             //Has to be in the setContent{} to get viewModel ?
+
             initObservers(movieViewModel)
             initData(movieViewModel)
 
@@ -50,9 +50,8 @@ class MainActivity : ComponentActivity() {
     }
 
     fun initData(movieViewModel: MovieViewModel) {
-        scope.launch {
             movieViewModel.getPopularMovieList()
-        }
+
     }
 
     fun initObservers(movieViewModel: MovieViewModel) {
