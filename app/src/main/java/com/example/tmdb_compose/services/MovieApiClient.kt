@@ -1,7 +1,6 @@
-package com.example.tmdb_compose.ui
+package com.example.tmdb_compose.services
 
 import com.example.tmdb_compose.BuildConfig
-import com.example.tmdb_compose.MovieServiceAPI
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -13,12 +12,11 @@ class MovieApiClient {
 
     var apiClient = provideApiClient()
 
-    private val BASE_URL = BuildConfig.BASE_URL
 
     //Creating our ApiClient with our interceptor
     private fun provideApiClient(): MovieServiceAPI {
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

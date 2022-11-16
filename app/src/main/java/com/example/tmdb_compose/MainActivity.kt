@@ -6,10 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.tmdb_compose.data.repositories.MovieRepository
 import com.example.tmdb_compose.ui.theme.TMDB_composeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,28 +16,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             TMDB_composeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
                 }
             }
         }
+        getPopularMovies()
+    }
+
+    fun getPopularMovies() {
+        val thread = Thread(Runnable {
+            MovieRepository().getPopularMovies()
+        })
+        thread.start()
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    TMDB_composeTheme {
-        Greeting("Android")
-    }
-}

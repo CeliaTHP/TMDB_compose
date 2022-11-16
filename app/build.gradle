@@ -83,10 +83,12 @@ dependencies {
 
     //Moshi (Gson converter for retrofit)
     //https://proandroiddev.com/moshi-with-retrofit-in-kotlin-%EF%B8%8F-a69c2621708b
-    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     //Logging Interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    implementation "com.squareup.moshi:moshi:1.8.0"
 
 
 }
