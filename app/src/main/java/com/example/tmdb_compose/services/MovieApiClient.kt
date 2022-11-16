@@ -1,20 +1,26 @@
 package com.example.tmdb_compose.services
 
 import com.example.tmdb_compose.BuildConfig
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 class MovieApiClient {
 
-    var apiClient = provideApiClient()
-
-
     //Creating our ApiClient with our interceptor
-    private fun provideApiClient(): MovieServiceAPI {
+    @Provides
+    @Singleton
+    fun provideMovieApiService(): MovieApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(
@@ -25,7 +31,7 @@ class MovieApiClient {
             )
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-        return retrofit.create(MovieServiceAPI::class.java)
+        return retrofit.create(MovieApiService::class.java)
     }
 
 
@@ -43,7 +49,6 @@ class MovieApiClient {
                 ).build()
             )
         }
-
     }
 
 

@@ -4,7 +4,7 @@ import com.example.tmdb_compose.data.pojo_models.PopularMovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
 
-public interface MovieServiceAPI {
+public interface MovieApiService {
 
     @GET("movie/now_playing")
     fun getNowPlayingMovies() {

@@ -4,7 +4,6 @@ import com.squareup.moshi.Json
 
 //@JsonClass(generateAdapter = true)
 data class MovieResponse(
-    @field:Json(name = "adult") val adult: Boolean,
     @field:Json(name = "backdrop_path") val backdropPath: String,
     @field:Json(name = "genre_ids") val genreIds: List<Int>,
     @field:Json(name = "id") val id: Long,
