@@ -4,7 +4,8 @@ data class Movie(
     val id: Long,
     val originalTitle: String,
     val releaseDate: String,
-    val overview: String
+    val overview: String,
+    val posterPath: String
 ) {
 
 }

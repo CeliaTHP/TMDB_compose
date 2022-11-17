@@ -1,5 +1,6 @@
 package com.example.tmdb_compose.di
 
+import com.example.tmdb_compose.MovieState
 import com.example.tmdb_compose.data.repositories.MovieRepository
 import com.example.tmdb_compose.data.repositories.MovieRepositoryImpl
 import com.example.tmdb_compose.services.MovieApiService
@@ -14,7 +15,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
     @Provides
     @Singleton
     fun provideMovieRepository(movieApiService: MovieApiService): MovieRepository {
@@ -25,7 +25,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMovieViewModel(movieRepository: MovieRepository): MovieViewModel {
-        return MovieViewModel(movieRepository)
+        return MovieViewModel(movieRepository, MovieState())
     }
 
 
