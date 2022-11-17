@@ -81,7 +81,7 @@ fun DrawerBody(
 
 
 data class MenuItem(
-    val id: String,
+    val id: ScreensRoute,
     val title: String,
     val icon: ImageVector
 )

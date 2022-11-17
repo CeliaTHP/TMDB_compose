@@ -32,7 +32,7 @@ import com.example.tmdb_compose.domain.Movie
 
 
 @Composable
-fun PopularColumn(categoryTitle: String) {
+fun MovieColumn(categoryTitle: String) {
     Column(
     ) {
         CategoryTitle(categoryTitle)
