@@ -1,6 +1,5 @@
 package com.example.tmdb_compose.data.repositories
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.MutableLiveData
 import com.example.tmdb_compose.domain.APIError
 import com.example.tmdb_compose.domain.Movie
@@ -12,7 +11,7 @@ interface MovieRepository {
     }
 
     suspend fun getPopularMovies(
-        popularMovieListLiveData: MutableState<List<Movie>>,
+        popularMovieListLiveData: MutableLiveData<List<Movie>>,
         errorLiveData: MutableLiveData<APIError>
     )
 

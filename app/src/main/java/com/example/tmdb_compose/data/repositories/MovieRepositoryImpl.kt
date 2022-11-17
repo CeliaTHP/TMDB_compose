@@ -1,7 +1,6 @@
 package com.example.tmdb_compose.data.repositories
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.MutableLiveData
 import com.example.tmdb_compose.data.pojo_models.PopularMovieResponse
 import com.example.tmdb_compose.domain.APIError
@@ -19,19 +18,19 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun getPopularMovies(
-        popularMovieListLiveData: MutableState<List<Movie>>,
+        popularMovieListLiveData: MutableLiveData<List<Movie>>,
         errorLiveData: MutableLiveData<APIError>
     ) {
-        //TODO : move in constructor
-
         try {
             val response = movieApiClient.getPopularMovies().execute()
             if (response.isSuccessful) {
                 if (response.body() != null) {
                     val popularMovieResponse = response.body()
-                    popularMovieListLiveData.value =
-                        fromMovieResponseListToMovieList(popularMovieResponse)
-                    /*
+                    //Using MutableState
+
+                    //popularMovieListLiveData.value =
+                    //  fromMovieResponseListToMovieList(popularMovieResponse)
+                    //Using liveData
                     popularMovieListLiveData.postValue(
                         fromMovieResponseListToMovieList(
                             popularMovieResponse
@@ -40,7 +39,6 @@ class MovieRepositoryImpl(
 
                     )
 
-                     */
                     Log.d(TAG, "getPopularMovies success : $popularMovieResponse")
                 }
 
