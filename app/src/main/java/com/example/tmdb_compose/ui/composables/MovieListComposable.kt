@@ -105,7 +105,7 @@ fun ItemCardView(movie: Movie) {
 
                 style = TextStyle(
                     color = Color.Red,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start,
                 )
