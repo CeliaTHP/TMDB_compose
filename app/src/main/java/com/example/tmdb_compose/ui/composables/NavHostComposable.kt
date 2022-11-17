@@ -25,7 +25,7 @@ fun NavHost(navController: NavHostController, onClick: (movie: Movie) -> Unit) {
 }
 
 enum class ScreensRoute {
-    HOME, INFO
+    HOME, INFO, DETAILS
 }
 
 

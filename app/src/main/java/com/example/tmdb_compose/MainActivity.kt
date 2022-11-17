@@ -1,5 +1,6 @@
 package com.example.tmdb_compose
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -36,7 +37,11 @@ class MainActivity : ComponentActivity() {
             val scope = rememberCoroutineScope()
 
             ScaffoldAndNavHost(navController, scaffoldState, scope) {
-                Log.d(TAG, it.toString())
+
+                val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+                intent.putExtra("movie", it)
+                startActivity(intent)
+
             }
 
         }

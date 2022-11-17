@@ -2,9 +2,10 @@ package com.example.tmdb_compose.ui.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
@@ -32,11 +33,15 @@ fun Details(movie: Movie) {
     ) {
         GlideImage(
             model = fullUrl, contentDescription = "Poster", Modifier
-                .width(300.dp)
-                .height(500.dp)
+                .fillMaxWidth(300f)
+                .fillMaxHeight(500f)
+                .padding(20.dp)
         )
-        Text(movie.originalTitle, fontSize = 20.sp)
-        Text(movie.originalTitle, fontSize = 12.sp)
+        Text(movie.originalTitle, fontSize = 40.sp)
+        Text(
+            movie.overview, fontSize = 16.sp, modifier =
+            Modifier.padding(20.dp)
+        )
 
 
     }
