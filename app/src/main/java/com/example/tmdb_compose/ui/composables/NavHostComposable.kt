@@ -1,24 +1,24 @@
 package com.example.tmdb_compose.ui.composables
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.tmdb_compose.domain.Movie
+import com.example.tmdb_compose.ui.MovieColumns
 
 
 @Composable
-fun NavHost(navController: NavHostController) {
+fun NavHost(navController: NavHostController, onClick: (movie: Movie) -> Unit) {
     NavHost(
         navController = navController,
         startDestination = ScreensRoute.HOME.name
     ) {
         composable(ScreensRoute.HOME.name) {
-            Text("screen 1")
+            MovieColumns(onClick)
         }
         composable(ScreensRoute.INFO.name) {
-            Text("screen 2")
-
+            Info()
         }
 
     }
@@ -27,5 +27,6 @@ fun NavHost(navController: NavHostController) {
 enum class ScreensRoute {
     HOME, INFO
 }
+
 
 
