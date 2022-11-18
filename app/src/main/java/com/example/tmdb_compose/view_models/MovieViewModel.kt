@@ -45,18 +45,19 @@ class MovieViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                Log.d(TAG, "initViewModel")
 
                 //API Call for popular movies
-
                 val popularResponse: RepositoryResponse = movieRepository.getMoviesForCategory(
                     Category.POPULAR
                 )
+
                 popularResponse.movieList?.let {
                     Log.d(TAG, "popular movieList  :$it")
                     _popularState.value = it
                 }
-                //API Call for top rated movies
 
+                //API Call for top rated movies
                 val topRatedResponse: RepositoryResponse =
                     movieRepository.getMoviesForCategory(Category.TOP_RATED)
 

@@ -1,7 +1,7 @@
 package com.example.tmdb_compose.data.repositories
 
 import android.util.Log
-import com.example.tmdb_compose.data.pojo_models.MoviesResponse
+import com.example.tmdb_compose.data.pojo_models.CategoryResponse
 import com.example.tmdb_compose.domain.APIError
 import com.example.tmdb_compose.domain.Category
 import com.example.tmdb_compose.domain.Movie
@@ -21,12 +21,15 @@ class MovieRepositoryImpl(
 
     override suspend fun getMoviesForCategory(category: Category): RepositoryResponse {
         try {
-            val moviesResponse = getResponseForCategory(category)
-            //val response = movieApiClient.getPopularMovies().execute()
-            if (moviesResponse.isSuccessful) {
-                if (moviesResponse.body() != null) {
-                    val response = moviesResponse.body()
-                    Log.d(TAG, "getMovies $category success : $response")
+            val request = getResponseForCategory(category)
+
+            Log.d(TAG, "request : $request")
+
+            if (request.isSuccessful) {
+                if (request.body() != null) {
+                    val response = request.body()
+                    Log.d(TAG, "success response : $response")
+
                     return RepositoryResponse(
                         fromMovieResponseListToMovieList(response),
                         null
@@ -51,7 +54,7 @@ class MovieRepositoryImpl(
     }
 
     //in viewmodel ?
-    fun fromMovieResponseListToMovieList(movieList: MoviesResponse?): List<Movie> {
+    fun fromMovieResponseListToMovieList(movieList: CategoryResponse?): List<Movie> {
         if (movieList == null)
             return emptyList()
 
@@ -77,8 +80,8 @@ class MovieRepositoryImpl(
     }
 
 
-    private fun getResponseForCategory(category: Category): Response<MoviesResponse> {
-        return when (category) {
+    private fun getResponseForCategory(category: Category): Response<CategoryResponse> {
+        val call = when (category) {
             Category.POPULAR -> {
                 movieApiClient.getPopularMovies().execute()
             }
@@ -92,5 +95,6 @@ class MovieRepositoryImpl(
             }
 
         }
+        return call
     }
 }

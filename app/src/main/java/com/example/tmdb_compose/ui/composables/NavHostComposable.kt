@@ -16,14 +16,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.tmdb_compose.domain.Category
 import com.example.tmdb_compose.domain.Movie
+import com.example.tmdb_compose.domain.getCategoryName
 import com.example.tmdb_compose.ui.CategoryTitle
 import com.example.tmdb_compose.ui.ItemCardView
 import com.example.tmdb_compose.view_models.MovieViewModel
@@ -50,11 +51,11 @@ fun NavHost(
                     horizontalAlignment = Alignment.Start,
                 ) {
 
-                    PopularMovieRow("Populars", movieViewModel, onClick)
+                    MovieRow(Category.POPULAR, movieViewModel, onClick)
                     Spacer(modifier = Modifier.width(16.dp))
-                    TopRatedMovieRow("Top Rated", movieViewModel, onClick)
+                    MovieRow(Category.TOP_RATED, movieViewModel, onClick)
                     Spacer(modifier = Modifier.width(16.dp))
-                    UpComingMovieRow("Up coming", movieViewModel, onClick)
+                    MovieRow(Category.UP_COMPING, movieViewModel, onClick)
 
                 }
             }
@@ -75,8 +76,8 @@ fun NavHost(
 }
 
 @Composable
-fun PopularMovieRow(
-    categoryTitle: String,//replace by category class
+fun MovieRow(
+    category: Category,
     movieViewModel: MovieViewModel,
     onClick: (movie: Movie) -> Unit
 ) {
@@ -84,92 +85,19 @@ fun PopularMovieRow(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
-        CategoryTitle(categoryTitle = categoryTitle)
-        PopularMovieList(movieViewModel, onClick = onClick)
+        CategoryTitle(categoryTitle = getCategoryName(category))
+        MovieList(category = category, movieViewModel = movieViewModel, onClick = onClick)
     }
 
 }
 
 @Composable
-fun TopRatedMovieRow(
-    categoryTitle: String,//replace by category class
-    movieViewModel: MovieViewModel,
-    onClick: (movie: Movie) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start,
-    ) {
-        CategoryTitle(categoryTitle = categoryTitle)
-        TopRatedMovieList(movieViewModel, onClick = onClick)
-    }
-
-}
-
-@Composable
-fun UpComingMovieRow(
-    categoryTitle: String,//replace by category class
-    movieViewModel: MovieViewModel,
-    onClick: (movie: Movie) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start,
-    ) {
-        CategoryTitle(categoryTitle = categoryTitle)
-        UpComingMovieList(movieViewModel, onClick = onClick)
-    }
-
-}
-
-
-@Composable
-fun PopularMovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
-    val state by movieViewModel.popularState.collectAsState()
-
-    LazyRow {
-        if (state.isEmpty()) {
-            item {
-                CircularProgressIndicator(
-                    modifier
-                    = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize()
-                )
-            }
-        }
-        //is basic compose items but name conflict
-        items(state) { movie ->
-            ItemCardView(movie, onClick)
-        }
-    }
-}
-
-@Composable
-fun TopRatedMovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
-    val state by movieViewModel.topRatedState.collectAsState()
-
-    LazyRow {
-        if (state.isEmpty()) {
-            item {
-                CircularProgressIndicator(
-                    modifier
-                    = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize()
-                )
-            }
-        }
-        //is basic compose items but name conflict
-        items(state) { movie ->
-            ItemCardView(movie, onClick)
-        }
-    }
-}
-
-@Composable
-fun UpComingMovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
-    val state by movieViewModel.upComingState.collectAsState()
+fun MovieList(category: Category, movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
+    val state = when (category) {
+        Category.POPULAR -> movieViewModel.popularState.collectAsState()
+        Category.TOP_RATED -> movieViewModel.topRatedState.collectAsState()
+        Category.UP_COMPING -> movieViewModel.upComingState.collectAsState()
+    }.value
 
     LazyRow {
         if (state.isEmpty()) {

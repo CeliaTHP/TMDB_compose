@@ -1,12 +1,16 @@
 package com.example.tmdb_compose.domain
 
-class CategoryInfos(
-    val categoryTitle: String,
-    val category: Category
-)
-
 enum class Category {
     POPULAR,
     TOP_RATED,
-    UP_COMPING
+    UP_COMPING,
+}
+
+fun getCategoryName(category: Category): String {
+    return when (category) {
+        Category.POPULAR -> "Popular"
+        Category.UP_COMPING -> "Up Coming"
+        Category.TOP_RATED -> "Top Rated"
+    }
+
 }

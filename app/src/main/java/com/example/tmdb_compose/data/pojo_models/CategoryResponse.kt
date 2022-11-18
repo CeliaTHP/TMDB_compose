@@ -3,7 +3,7 @@ package com.example.tmdb_compose.data.pojo_models
 import com.squareup.moshi.Json
 
 //@JsonClass(generateAdapter = true)
-data class MoviesResponse(
+data class CategoryResponse(
 
     @field:Json(name = "page") val page: Int,
     @field:Json(name = "results") val results: List<MovieResponse>,
