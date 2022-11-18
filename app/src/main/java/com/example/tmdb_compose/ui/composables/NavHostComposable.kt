@@ -1,8 +1,13 @@
 package com.example.tmdb_compose.ui.composables
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -14,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +37,10 @@ fun NavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ScreensRoute.HOME.name
+        startDestination = ScreensRoute.HOME.name,
+        modifier =
+        Modifier
+            .verticalScroll(rememberScrollState())
     ) {
         /*
         composable(ScreensRoute.HOME.name) {
@@ -39,7 +48,21 @@ fun NavHost(
         }
          */
         composable(ScreensRoute.HOME.name) {
-            MovieRow("Populars", movieViewModel, onClick)
+            Box(modifier = Modifier.padding(PaddingValues(10.dp))) {
+
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                ) {
+
+                    PopularMovieRow("Populars", movieViewModel, onClick)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    TopRatedMovieRow("Top Rated", movieViewModel, onClick)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    UpComingMovieRow("Up coming", movieViewModel, onClick)
+
+                }
+            }
         }
         composable(ScreensRoute.INFO.name) {
             Info()
@@ -49,30 +72,60 @@ fun NavHost(
 }
 
 @Composable
-fun MovieRow(
-    categoryTitle: String,
+fun PopularMovieRow(
+    categoryTitle: String,//replace by category class
     movieViewModel: MovieViewModel,
     onClick: (movie: Movie) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
     ) {
         CategoryTitle(categoryTitle = categoryTitle)
-        MovieList(movieViewModel = movieViewModel, onClick = onClick)
+        PopularMovieList(movieViewModel, onClick = onClick)
     }
 
 }
 
 @Composable
-fun MovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
-    val popularState by movieViewModel.popularState.collectAsState()
+fun TopRatedMovieRow(
+    categoryTitle: String,//replace by category class
+    movieViewModel: MovieViewModel,
+    onClick: (movie: Movie) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        CategoryTitle(categoryTitle = categoryTitle)
+        TopRatedMovieList(movieViewModel, onClick = onClick)
+    }
+
+}
+
+@Composable
+fun UpComingMovieRow(
+    categoryTitle: String,//replace by category class
+    movieViewModel: MovieViewModel,
+    onClick: (movie: Movie) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
+    ) {
+        CategoryTitle(categoryTitle = categoryTitle)
+        UpComingMovieList(movieViewModel, onClick = onClick)
+    }
+
+}
+
+
+@Composable
+fun PopularMovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
+    val state by movieViewModel.popularState.collectAsState()
 
     LazyRow {
-
-        if (popularState.isEmpty()) {
+        if (state.isEmpty()) {
             item {
                 CircularProgressIndicator(
                     modifier
@@ -82,33 +135,57 @@ fun MovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
                 )
             }
         }
-
         //is basic compose items but name conflict
-        items(popularState) { movie ->
+        items(state) { movie ->
             ItemCardView(movie, onClick)
         }
     }
 }
 
-/*
 @Composable
-fun MovieColumns(onClick: (movie: Movie) -> Unit) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
+fun TopRatedMovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
+    val state by movieViewModel.topRatedState.collectAsState()
 
-    ) {
-
-        MovieColumn("Popular", onClick)
-        MovieColumn("Top Rated", onClick)
-        MovieColumn("Now Playing", onClick)
-
+    LazyRow {
+        if (state.isEmpty()) {
+            item {
+                CircularProgressIndicator(
+                    modifier
+                    = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize()
+                )
+            }
+        }
+        //is basic compose items but name conflict
+        items(state) { movie ->
+            ItemCardView(movie, onClick)
+        }
     }
 }
 
- */
+@Composable
+fun UpComingMovieList(movieViewModel: MovieViewModel, onClick: (movie: Movie) -> Unit) {
+    val state by movieViewModel.upComingState.collectAsState()
+
+    LazyRow {
+        if (state.isEmpty()) {
+            item {
+                CircularProgressIndicator(
+                    modifier
+                    = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize()
+                )
+            }
+        }
+        //is basic compose items but name conflict
+        items(state) { movie ->
+            ItemCardView(movie, onClick)
+        }
+    }
+}
+
 
 enum class ScreensRoute {
     HOME, INFO

@@ -21,7 +21,8 @@ fun Info() {
     Column(
         modifier =
         Modifier
-            .fillMaxSize(), verticalArrangement = Arrangement.Center,
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

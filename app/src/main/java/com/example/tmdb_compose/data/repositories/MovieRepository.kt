@@ -8,7 +8,14 @@ interface MovieRepository {
 
     }
 
+    //TODO : Object response with 3 type list ?
     suspend fun getPopularMovies(
+    ): RepositoryResponse
+
+    suspend fun getUpcomingMovies(
+    ): RepositoryResponse
+
+    suspend fun getTopRatedMovies(
     ): RepositoryResponse
 
 

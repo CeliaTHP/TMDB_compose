@@ -1,28 +1,19 @@
 package com.example.tmdb_compose.services
 
-import com.example.tmdb_compose.data.pojo_models.PopularMovieResponse
+import com.example.tmdb_compose.data.pojo_models.MoviesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 
 public interface MovieApiService {
 
-    @GET("movie/now_playing")
-    fun getNowPlayingMovies() {
-
-    }
-
     @GET("movie/popular")
-    fun getPopularMovies(): Call<PopularMovieResponse>
+    fun getPopularMovies(): Call<MoviesResponse>
 
-    @GET("movie/latest")
-    fun getLatestMovies() {
+    @GET("movie/upcoming")
+    fun getUpcompingMovies(): Call<MoviesResponse>
 
-    }
-
-    @GET("/movie/top_rated")
-    fun getTopRatedMovies() {
-
-    }
+    @GET("movie/top_rated")
+    fun getTopRatedMovies(): Call<MoviesResponse>
 
 
 }

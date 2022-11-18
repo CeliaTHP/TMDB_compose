@@ -2,8 +2,12 @@ package com.example.tmdb_compose.data.pojo_models
 
 import com.squareup.moshi.Json
 
-data class NowPlayingMovieResponse(
+//@JsonClass(generateAdapter = true)
+data class MoviesResponse(
+
     @field:Json(name = "page") val page: Int,
     @field:Json(name = "results") val results: List<MovieResponse>,
+    @field:Json(name = "total_page") val totalPages: Long,
+    @field:Json(name = "total_results") val totalResults: Long
 
-    ) {}
+)
