@@ -2,6 +2,7 @@ package com.example.tmdb_compose.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,17 +30,21 @@ fun DrawerHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+
             .padding(10.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column() {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Image(
                 painterResource(id = R.drawable.ic_movie), contentDescription = "Movie",
                 modifier = Modifier
-                    .width(80.dp)
-                    .height(80.dp)
+                    .width(150.dp)
+                    .height(150.dp)
             )
-            Text(text = "Header", fontSize = 30.sp)
+            Text(text = "Header", fontSize = 40.sp)
 
         }
 

@@ -40,16 +40,11 @@ fun NavHost(
         startDestination = ScreensRoute.HOME.name,
         modifier =
         Modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        /*
-        composable(ScreensRoute.HOME.name) {
-            MovieColumns(onClick)
-        }
-         */
         composable(ScreensRoute.HOME.name) {
             Box(modifier = Modifier.padding(PaddingValues(10.dp))) {
-
                 Column(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start,
@@ -65,7 +60,15 @@ fun NavHost(
             }
         }
         composable(ScreensRoute.INFO.name) {
-            Info()
+            Column(
+                modifier =
+                Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End
+            ) {
+                Info()
+            }
         }
 
     }

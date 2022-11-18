@@ -1,6 +1,7 @@
 package com.example.tmdb_compose.ui.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,6 +20,7 @@ import com.example.tmdb_compose.R
 
 @Composable
 fun Info() {
+
     Column(
         modifier =
         Modifier
@@ -37,19 +40,16 @@ fun Info() {
                 .width(300.dp)
                 .height(300.dp)
         )
+
     }
     Column(
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.End,
         modifier =
         Modifier
             .fillMaxSize()
+            .background(Color.Yellow),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.End
     ) {
-        Text(
-            text = "Smile and Pay", modifier =
-            Modifier
-                .padding(10.dp)
-        )
+        Text(text = "Smile and Pay")
     }
-
 }
