@@ -6,5 +6,4 @@ data class NowPlayingMovieResponse(
     @field:Json(name = "page") val page: Int,
     @field:Json(name = "results") val results: List<MovieResponse>,
 
-
     ) {}

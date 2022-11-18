@@ -1,10 +1,10 @@
 package com.example.tmdb_compose.data.repositories
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.tmdb_compose.data.pojo_models.PopularMovieResponse
 import com.example.tmdb_compose.domain.APIError
 import com.example.tmdb_compose.domain.Movie
+import com.example.tmdb_compose.domain.RepositoryResponse
 import com.example.tmdb_compose.services.MovieApiService
 import java.io.IOException
 
@@ -17,40 +17,62 @@ class MovieRepositoryImpl(
 
     }
 
-    override suspend fun getPopularMovies(
-        popularMovieListLiveData: MutableLiveData<List<Movie>>,
-        errorLiveData: MutableLiveData<APIError>
-    ) {
+
+    override suspend fun getPopularMovies(): RepositoryResponse {
         try {
             val response = movieApiClient.getPopularMovies().execute()
             if (response.isSuccessful) {
                 if (response.body() != null) {
                     val popularMovieResponse = response.body()
-                    //Using MutableState
+                    Log.d(TAG, "getPopularMovies success : $popularMovieResponse")
+                    return RepositoryResponse(
+                        fromMovieResponseListToMovieList(popularMovieResponse),
+                        null
+                    )
 
+                    //Using MutableState
                     //popularMovieListLiveData.value =
                     //  fromMovieResponseListToMovieList(popularMovieResponse)
                     //Using liveData
-                    popularMovieListLiveData.postValue(
+                    /*popularMovieListLiveData.postValue(
                         fromMovieResponseListToMovieList(
                             popularMovieResponse
                         )
-
-
                     )
 
-                    Log.d(TAG, "getPopularMovies success : $popularMovieResponse")
+                     */
+
                 }
 
-            } else {
-                errorLiveData.postValue(APIError.PARSING_EXCEPTION)
+            } else {/*
                 Log.d(TAG, "getPopularMovies error ")
+                errorLiveData.postValue(APIError.PARSING_EXCEPTION)
+                return emptyList()
+                */
+                return RepositoryResponse(
+                    null,
+                    APIError.PARSING_EXCEPTION
+                )
             }
 
         } catch (e: IOException) {
-            errorLiveData.postValue(APIError.IO_EXCEPTION)
+            /*
             Log.d(TAG, "exception : $e")
+            errorLiveData.postValue(APIError.IO_EXCEPTION)
+            return emptyList()
+
+             */
+            return RepositoryResponse(
+                null,
+                APIError.IO_EXCEPTION
+            )
+
         }
+        return RepositoryResponse(
+            null,
+            APIError.UNKNOWN_EXCEPTION
+        )
+
     }
 
     //in viewmodel ?
@@ -62,7 +84,7 @@ class MovieRepositoryImpl(
         for (movie in movieList.results) {
             var movieToAdd = Movie(
                 movie.id,
-                movie.originalTitle,
+                movie.title,
                 movie.releaseDate,
                 movie.overview,
                 movie.posterPath

@@ -2,7 +2,6 @@ package com.example.tmdb_compose
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.rememberScaffoldState
@@ -25,18 +24,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            //
             val movieViewModel = hiltViewModel<MovieViewModel>()
-
-            //Has to be in the setContent{} to get viewModel ?
-            initObservers(movieViewModel)
-            initData(movieViewModel)
 
             val navController = rememberNavController()
             val scaffoldState = rememberScaffoldState()
             val scope = rememberCoroutineScope()
 
-            ScaffoldAndNavHost(navController, scaffoldState, scope) {
+            ScaffoldAndNavHost(movieViewModel, navController, scaffoldState, scope) {
 
                 val intent = Intent(this@MainActivity, DetailsActivity::class.java)
                 intent.putExtra("movie", it)
@@ -47,20 +41,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun initData(movieViewModel: MovieViewModel) {
-        movieViewModel.getPopularMovieList()
-    }
-
-    fun initObservers(movieViewModel: MovieViewModel) {
-        movieViewModel.getPopularMovieListLiveData().observe(this) {
-            //MovieListContent()
-            Log.d(TAG, "getPopularMovieListObserver $it")
-        }
-        movieViewModel.getErrorLiveData().observe(this) {
-            Log.d(TAG, "getErrorObserver $it")
-        }
-
-    }
 
 }
 

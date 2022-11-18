@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 data class Movie(
     val id: Long,
-    val originalTitle: String,
+    val title: String,
     val releaseDate: String,
     val overview: String,
     val posterPath: String
@@ -21,7 +21,7 @@ data class Movie(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
-        parcel.writeString(originalTitle)
+        parcel.writeString(title)
         parcel.writeString(releaseDate)
         parcel.writeString(overview)
         parcel.writeString(posterPath)

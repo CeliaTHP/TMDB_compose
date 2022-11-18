@@ -37,7 +37,7 @@ fun Details(movie: Movie) {
                 .fillMaxHeight(500f)
                 .padding(20.dp)
         )
-        Text(movie.originalTitle, fontSize = 40.sp)
+        Text(movie.title, fontSize = 40.sp)
         Text(
             movie.overview, fontSize = 16.sp, modifier =
             Modifier.padding(20.dp)

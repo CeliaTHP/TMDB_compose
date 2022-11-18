@@ -11,13 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -27,7 +24,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,26 +33,16 @@ import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.tmdb_compose.BuildConfig
-import com.example.tmdb_compose.data.repositories.FakeMovie
 import com.example.tmdb_compose.domain.Movie
 import com.example.tmdb_compose.ui.composables.DrawerBody
 import com.example.tmdb_compose.ui.composables.DrawerHeader
 import com.example.tmdb_compose.ui.composables.MenuItem
 import com.example.tmdb_compose.ui.composables.NavHost
 import com.example.tmdb_compose.ui.composables.ScreensRoute
+import com.example.tmdb_compose.view_models.MovieViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
-@Composable
-fun MovieColumn(categoryTitle: String, onClick: (movie: Movie) -> Unit) {
-    Column(
-    ) {
-        CategoryTitle(categoryTitle)
-        MovieListContent(onClick)
-    }
-
-}
 
 @Composable
 fun CategoryTitle(categoryTitle: String) {
@@ -73,29 +59,6 @@ fun CategoryTitle(categoryTitle: String) {
 }
 
 
-@Composable
-fun MovieListContent(onClick: (movie: Movie) -> Unit) {
-
-    val finalMovieList = FakeMovie.getFakeMovieList()
-
-    //val finalMovieList = state.popularMovieListLiveData.value
-
-    LazyRow(
-
-    ) {
-        //is basic compose items but name conflict
-
-        items(finalMovieList) { movie ->
-            ItemCardView(movie, onClick)
-
-
-        }
-    }
-
-
-}
-
-
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ItemCardView(movie: Movie, onClick: (movie: Movie) -> Unit) {
@@ -106,14 +69,11 @@ fun ItemCardView(movie: Movie, onClick: (movie: Movie) -> Unit) {
 
         Card(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(6.dp)
                 .height(300.dp)
                 .width(200.dp),
-
-            //  .width(200.dp)
-            //.height(300.dp),
             elevation = 6.dp,
-            backgroundColor = Color.Blue,
+            backgroundColor = MaterialTheme.colors.primary,
             shape = RoundedCornerShape(corner = CornerSize(4.dp))
 
         ) {
@@ -126,13 +86,13 @@ fun ItemCardView(movie: Movie, onClick: (movie: Movie) -> Unit) {
             ) {
 
                 Text(
-                    text = movie.originalTitle,
+                    text = movie.title,
                     modifier = Modifier
-                        .padding(PaddingValues(6.dp)),
+                        .padding(PaddingValues(10.dp)),
 
                     style = TextStyle(
-                        color = Color.Red,
-                        fontSize = 20.sp,
+                        color = MaterialTheme.colors.onPrimary,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
                     )
@@ -140,7 +100,7 @@ fun ItemCardView(movie: Movie, onClick: (movie: Movie) -> Unit) {
                 GlideImage(
                     fullUrl, "poster",
                     modifier = Modifier
-                        .padding(20.dp)
+                        .padding(10.dp)
                         .clickable(onClick = {
                             //add onclick here because it doesnt triggers the onClick on Box
                             onClick(movie)
@@ -157,6 +117,7 @@ fun ItemCardView(movie: Movie, onClick: (movie: Movie) -> Unit) {
 
 @Composable
 fun ScaffoldAndNavHost(
+    movieViewModel: MovieViewModel,
     navController: NavHostController,
     scaffoldState: ScaffoldState,
     scope: CoroutineScope,
@@ -196,25 +157,8 @@ fun ScaffoldAndNavHost(
             )
         },
         content = {
-            NavHost(navController = navController, onClick)
-
+            NavHost(movieViewModel, navController, onClick)
         })
 }
 
 
-@Composable
-fun MovieColumns(onClick: (movie: Movie) -> Unit) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-
-    ) {
-
-        MovieColumn("Popular", onClick)
-        MovieColumn("Top Rated", onClick)
-        MovieColumn("Now Playing", onClick)
-
-    }
-}
