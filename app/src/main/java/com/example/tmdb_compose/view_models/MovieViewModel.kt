@@ -3,11 +3,11 @@ package com.example.tmdb_compose.view_models
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tmdb_compose.data.models.APIError
+import com.example.tmdb_compose.data.models.Category
+import com.example.tmdb_compose.data.models.Movie
+import com.example.tmdb_compose.data.models.RepositoryResponse
 import com.example.tmdb_compose.data.repositories.MovieRepository
-import com.example.tmdb_compose.domain.APIError
-import com.example.tmdb_compose.domain.Category
-import com.example.tmdb_compose.domain.Movie
-import com.example.tmdb_compose.domain.RepositoryResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,10 +47,18 @@ class MovieViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 Log.d(TAG, "initViewModel")
 
+
+                //One single object with category in each variable ?
+
                 //API Call for popular movies
                 val popularResponse: RepositoryResponse = movieRepository.getMoviesForCategory(
                     Category.POPULAR
                 )
+
+                popularResponse.error?.let {
+                    popularResponse
+
+                }
 
                 popularResponse.movieList?.let {
                     Log.d(TAG, "popular movieList  :$it")

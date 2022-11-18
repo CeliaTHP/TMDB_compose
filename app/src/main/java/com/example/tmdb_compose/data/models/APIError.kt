@@ -1,4 +1,4 @@
-package com.example.tmdb_compose.domain
+package com.example.tmdb_compose.data.models
 
 
 enum class APIError {

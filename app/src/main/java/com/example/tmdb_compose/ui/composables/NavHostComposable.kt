@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.tmdb_compose.domain.Category
-import com.example.tmdb_compose.domain.Movie
-import com.example.tmdb_compose.domain.getCategoryName
+import com.example.tmdb_compose.data.models.Category
+import com.example.tmdb_compose.data.models.Movie
+import com.example.tmdb_compose.data.models.getCategoryName
 import com.example.tmdb_compose.ui.CategoryTitle
 import com.example.tmdb_compose.ui.ItemCardView
 import com.example.tmdb_compose.view_models.MovieViewModel

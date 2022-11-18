@@ -33,7 +33,7 @@ import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.tmdb_compose.BuildConfig
-import com.example.tmdb_compose.domain.Movie
+import com.example.tmdb_compose.data.models.Movie
 import com.example.tmdb_compose.ui.composables.NavHost
 import com.example.tmdb_compose.ui.composables.ScreensRoute
 import com.example.tmdb_compose.ui.composables.drawer.DrawerBody

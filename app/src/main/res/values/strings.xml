@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TMDB_compose</string>
+
+    <string name="title">Title :  %1$S </string>
+    <string name="original_title">%1$S</string>
+    <string name="release_date">Release date : %1$s </string>
+
+
 </resources>

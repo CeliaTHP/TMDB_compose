@@ -1,11 +1,11 @@
 package com.example.tmdb_compose.data.repositories
 
 import android.util.Log
+import com.example.tmdb_compose.data.models.APIError
+import com.example.tmdb_compose.data.models.Category
+import com.example.tmdb_compose.data.models.Movie
+import com.example.tmdb_compose.data.models.RepositoryResponse
 import com.example.tmdb_compose.data.pojo_models.CategoryResponse
-import com.example.tmdb_compose.domain.APIError
-import com.example.tmdb_compose.domain.Category
-import com.example.tmdb_compose.domain.Movie
-import com.example.tmdb_compose.domain.RepositoryResponse
 import com.example.tmdb_compose.services.MovieApiService
 import retrofit2.Response
 import java.io.IOException
@@ -63,6 +63,7 @@ class MovieRepositoryImpl(
             var movieToAdd = Movie(
                 movie.id,
                 movie.title,
+                movie.originalTitle,
                 movie.releaseDate,
                 movie.overview,
                 movie.posterPath

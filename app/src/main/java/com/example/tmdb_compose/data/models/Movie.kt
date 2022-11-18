@@ -1,4 +1,4 @@
-package com.example.tmdb_compose.domain
+package com.example.tmdb_compose.data.models
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -6,12 +6,14 @@ import android.os.Parcelable
 data class Movie(
     val id: Long,
     val title: String,
+    val originalTitle: String,
     val releaseDate: String,
     val overview: String,
     val posterPath: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -22,6 +24,7 @@ data class Movie(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
         parcel.writeString(title)
+        parcel.writeString(originalTitle)
         parcel.writeString(releaseDate)
         parcel.writeString(overview)
         parcel.writeString(posterPath)
