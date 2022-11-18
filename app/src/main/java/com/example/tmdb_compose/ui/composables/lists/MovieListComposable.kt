@@ -34,11 +34,11 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.tmdb_compose.BuildConfig
 import com.example.tmdb_compose.domain.Movie
-import com.example.tmdb_compose.ui.composables.DrawerBody
-import com.example.tmdb_compose.ui.composables.DrawerHeader
-import com.example.tmdb_compose.ui.composables.MenuItem
 import com.example.tmdb_compose.ui.composables.NavHost
 import com.example.tmdb_compose.ui.composables.ScreensRoute
+import com.example.tmdb_compose.ui.composables.drawer.DrawerBody
+import com.example.tmdb_compose.ui.composables.drawer.DrawerHeader
+import com.example.tmdb_compose.ui.composables.drawer.MenuItem
 import com.example.tmdb_compose.view_models.MovieViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -157,7 +157,8 @@ fun ScaffoldAndNavHost(
             )
         },
         content = {
-            NavHost(movieViewModel, navController, onClick)
+
+        NavHost(movieViewModel, navController, onClick)
         })
 }
 

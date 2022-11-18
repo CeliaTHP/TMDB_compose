@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmdb_compose.data.repositories.MovieRepository
 import com.example.tmdb_compose.domain.APIError
+import com.example.tmdb_compose.domain.Category
 import com.example.tmdb_compose.domain.Movie
 import com.example.tmdb_compose.domain.RepositoryResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,27 +45,31 @@ class MovieViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                //call api twice ???
-                val popularResponse: RepositoryResponse = movieRepository.getPopularMovies()
 
-                //TODO : handle error
+                //API Call for popular movies
+
+                val popularResponse: RepositoryResponse = movieRepository.getMoviesForCategory(
+                    Category.POPULAR
+                )
                 popularResponse.movieList?.let {
                     Log.d(TAG, "popular movieList  :$it")
                     _popularState.value = it
                 }
+                //API Call for top rated movies
 
-                val topRatedReponse: RepositoryResponse = movieRepository.getTopRatedMovies()
+                val topRatedResponse: RepositoryResponse =
+                    movieRepository.getMoviesForCategory(Category.TOP_RATED)
 
-                //TODO : handle error
-                topRatedReponse.movieList?.let {
+                topRatedResponse.movieList?.let {
                     Log.d(TAG, "top Rated movieList  :$it")
                     _topRatedState.value = it
                 }
 
-                val upComingReponse: RepositoryResponse = movieRepository.getUpcomingMovies()
+                //API Call for upcoming movies
+                val upComingResponse: RepositoryResponse =
+                    movieRepository.getMoviesForCategory(Category.UP_COMPING)
 
-                //TODO : handle error
-                upComingReponse.movieList?.let {
+                upComingResponse.movieList?.let {
                     Log.d(TAG, "up coming movieList  :$it")
                     _upComingState.value = it
                 }

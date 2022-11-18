@@ -1,5 +1,6 @@
 package com.example.tmdb_compose.data.repositories
 
+import com.example.tmdb_compose.domain.Category
 import com.example.tmdb_compose.domain.RepositoryResponse
 
 interface MovieRepository {
@@ -8,7 +9,12 @@ interface MovieRepository {
 
     }
 
+    suspend fun getMoviesForCategory(
+        category: Category
+    ): RepositoryResponse
+
     //TODO : Object response with 3 type list ?
+    /*
     suspend fun getPopularMovies(
     ): RepositoryResponse
 
@@ -18,5 +24,7 @@ interface MovieRepository {
     suspend fun getTopRatedMovies(
     ): RepositoryResponse
 
+
+     */
 
 }

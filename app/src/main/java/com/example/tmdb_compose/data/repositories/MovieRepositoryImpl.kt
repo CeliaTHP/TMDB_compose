@@ -3,9 +3,11 @@ package com.example.tmdb_compose.data.repositories
 import android.util.Log
 import com.example.tmdb_compose.data.pojo_models.MoviesResponse
 import com.example.tmdb_compose.domain.APIError
+import com.example.tmdb_compose.domain.Category
 import com.example.tmdb_compose.domain.Movie
 import com.example.tmdb_compose.domain.RepositoryResponse
 import com.example.tmdb_compose.services.MovieApiService
+import retrofit2.Response
 import java.io.IOException
 
 class MovieRepositoryImpl(
@@ -17,111 +19,36 @@ class MovieRepositoryImpl(
 
     }
 
-    override suspend fun getPopularMovies(): RepositoryResponse {
+    override suspend fun getMoviesForCategory(category: Category): RepositoryResponse {
         try {
-            val response = movieApiClient.getPopularMovies().execute()
-            if (response.isSuccessful) {
-                if (response.body() != null) {
-                    val popularMovieResponse = response.body()
-                    Log.d(TAG, "getPopularMovies success : $popularMovieResponse")
+            val moviesResponse = getResponseForCategory(category)
+            //val response = movieApiClient.getPopularMovies().execute()
+            if (moviesResponse.isSuccessful) {
+                if (moviesResponse.body() != null) {
+                    val response = moviesResponse.body()
+                    Log.d(TAG, "getMovies $category success : $response")
                     return RepositoryResponse(
-                        fromMovieResponseListToMovieList(popularMovieResponse),
+                        fromMovieResponseListToMovieList(response),
                         null
                     )
-
                 }
-
             } else {
                 return RepositoryResponse(
                     null,
                     APIError.PARSING_EXCEPTION
                 )
             }
-
         } catch (e: IOException) {
             return RepositoryResponse(
                 null,
                 APIError.IO_EXCEPTION
             )
-
         }
         return RepositoryResponse(
             null,
             APIError.UNKNOWN_EXCEPTION
         )
-
     }
-
-    override suspend fun getUpcomingMovies(): RepositoryResponse {
-        try {
-            val response = movieApiClient.getUpcompingMovies().execute()
-            if (response.isSuccessful) {
-                if (response.body() != null) {
-                    val popularMovieResponse = response.body()
-                    Log.d(TAG, "getPopularMovies success : $popularMovieResponse")
-                    return RepositoryResponse(
-                        fromMovieResponseListToMovieList(popularMovieResponse),
-                        null
-                    )
-
-                }
-
-            } else {
-                return RepositoryResponse(
-                    null,
-                    APIError.PARSING_EXCEPTION
-                )
-            }
-
-        } catch (e: IOException) {
-            return RepositoryResponse(
-                null,
-                APIError.IO_EXCEPTION
-            )
-
-        }
-        return RepositoryResponse(
-            null,
-            APIError.UNKNOWN_EXCEPTION
-        )
-
-    }
-
-    override suspend fun getTopRatedMovies(): RepositoryResponse {
-        try {
-            val response = movieApiClient.getTopRatedMovies().execute()
-            if (response.isSuccessful) {
-                if (response.body() != null) {
-                    val popularMovieResponse = response.body()
-                    Log.d(TAG, "getTopRatedMovies success : $popularMovieResponse")
-                    return RepositoryResponse(
-                        fromMovieResponseListToMovieList(popularMovieResponse),
-                        null
-                    )
-
-                }
-
-            } else {
-                return RepositoryResponse(
-                    null,
-                    APIError.PARSING_EXCEPTION
-                )
-            }
-
-        } catch (e: IOException) {
-            return RepositoryResponse(
-                null,
-                APIError.IO_EXCEPTION
-            )
-
-        }
-        return RepositoryResponse(
-            null,
-            APIError.UNKNOWN_EXCEPTION
-        )
-
-    }
-
 
     //in viewmodel ?
     fun fromMovieResponseListToMovieList(movieList: MoviesResponse?): List<Movie> {
@@ -149,4 +76,21 @@ class MovieRepositoryImpl(
 
     }
 
+
+    private fun getResponseForCategory(category: Category): Response<MoviesResponse> {
+        return when (category) {
+            Category.POPULAR -> {
+                movieApiClient.getPopularMovies().execute()
+            }
+            Category.TOP_RATED
+            -> {
+                movieApiClient.getTopRatedMovies().execute()
+            }
+            Category.UP_COMPING
+            -> {
+                movieApiClient.getUpcompingMovies().execute()
+            }
+
+        }
+    }
 }
